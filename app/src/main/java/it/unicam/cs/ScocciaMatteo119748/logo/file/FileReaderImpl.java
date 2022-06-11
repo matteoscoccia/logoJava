@@ -17,12 +17,14 @@ public class FileReaderImpl implements FileReader {
     private List<String> fileStrings;
     private final Path filePath;
     private final List<BasicInstruction> instructionList;
+    private InstructionConverter converter;
 
 
-    public FileReaderImpl(String path) {
+    public FileReaderImpl(String path, InstructionConverter converter) {
         filePath = Path.of(path);
         fileStrings  = new ArrayList<>();
         instructionList = new ArrayList<>();
+        this.converter = converter;
         readStringsList();
     }
 
@@ -40,8 +42,7 @@ public class FileReaderImpl implements FileReader {
     }
 
     public ArrayList<BasicInstruction> getInstructionsList(){
-        fileStrings.forEach(System.out::println);
-        return null;
+        return converter.convert(fileStrings);
     }
 
     @Override

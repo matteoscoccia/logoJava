@@ -12,7 +12,7 @@ public class RepeatInstruction<T extends BasicInstruction> extends BasicInstruct
     private final List<T> instructionList;
 
     public RepeatInstruction(int times, List<T> instructionList) {
-        super(Command.REPEAT);
+        super(new Command("REPEAT", CommandType.REPEATINSTRUCTION));
         this.times = times;
         this.instructionList = instructionList;
     }

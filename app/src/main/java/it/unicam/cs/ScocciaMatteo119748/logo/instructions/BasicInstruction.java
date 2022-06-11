@@ -15,4 +15,11 @@ public class BasicInstruction implements Instruction{
     public Command getCommand() {
         return command;
     }
+
+    @Override
+    public String toString() {
+        return "BasicInstruction{" +
+                "command=" + command.getName() + " " + command.getType() +
+                '}';
+    }
 }
