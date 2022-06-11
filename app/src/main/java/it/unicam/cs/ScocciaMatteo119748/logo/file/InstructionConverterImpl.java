@@ -14,7 +14,7 @@ import java.util.Optional;
 public class InstructionConverterImpl implements InstructionConverter{
 
     private static InstructionConverterImpl instance = null;
-    private ArrayList<Command> commandsList = createCommandsList();
+    public final ArrayList<Command> commandsList = createCommandsList();
 
     /**
      * Constructor is private in order to implement singleton pattern
@@ -61,12 +61,13 @@ public class InstructionConverterImpl implements InstructionConverter{
      */
     @Override
     public ArrayList<BasicInstruction> convert(List<String> fileStrings) {
+        ArrayList<BasicInstruction> instructionSet = new ArrayList<>();
         for (String s:
              fileStrings) {
             BasicInstruction in = convertString(s);
-            System.out.println(in.toString());
+            instructionSet.add(in);
         }
-        return null;
+        return instructionSet;
     }
 
     /**
@@ -101,12 +102,18 @@ public class InstructionConverterImpl implements InstructionConverter{
             //TODO REPEAT VIENE MESSO DOPO LE ISTRUZIONI DA RIPETERE
             ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
             ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
+            System.out.println(nextInstructions);
             return new RepeatInstruction<BasicInstruction>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
         }
 
         return null;
     }
 
+    /**
+     * Parses repeat instructions
+     * @param nextCommands Next commands read from the file
+     * @return the list of strings that contain the next commands
+     */
     private List<String> parseNestedCommands(ArrayList<String> nextCommands) {
         nextCommands.remove(0);
         nextCommands.remove(0);
@@ -149,21 +156,5 @@ public class InstructionConverterImpl implements InstructionConverter{
         Optional<Command> command = commandsList.stream().filter(x -> x.getName().equals(instructionComponent)).findFirst();
         return command.orElse(null);
     }
-
-    /*private CommandType provideCommandType(String instructionComponent) {
-        if(isBasicInstruction(instructionComponent))
-            return CommandType.BASICINSTRUCTION;
-
-        if(isSingleParameterInstruction(instructionComponent))
-            return CommandType.SINGLEPARAMETERINSTRUCTION;
-
-        if(isColorInstruction(instructionComponent))
-            return CommandType.COLORINSTRUCTION;
-
-        if(isRepeatInstruction(instructionComponent))
-            return CommandType.REPEATINSTRUCTION;
-
-        return null;
-    }*/
 
 }

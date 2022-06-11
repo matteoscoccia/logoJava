@@ -11,6 +11,8 @@ public class PlaygroundImpl implements Playground{
     private final int width;
     private final Color background;
 
+    //TODO FORSE VA SALVATA QUA LA LISTA FINALE DI LINEE E SHAPE
+
     /**
      * Default constructor of the playground, sets the background color to white
      * @param width width of the field

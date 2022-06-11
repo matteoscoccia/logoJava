@@ -24,4 +24,12 @@ public class RepeatInstruction<T extends BasicInstruction> extends BasicInstruct
     public List<T> getInstructionList() {
         return instructionList;
     }
+
+    @Override
+    public String toString() {
+        return "RepeatInstruction{" +
+                "times=" + times +
+                ", instructionList=" + instructionList +
+                '}';
+    }
 }

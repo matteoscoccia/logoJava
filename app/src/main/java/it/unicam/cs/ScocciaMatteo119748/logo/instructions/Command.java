@@ -5,9 +5,9 @@ package it.unicam.cs.ScocciaMatteo119748.logo.instructions;
  */
 public class Command {
 
-    private String name;
+    private final String name;
 
-    private CommandType type;
+    private final CommandType type;
 
     public Command(String name, CommandType type) {
         this.name = name;
