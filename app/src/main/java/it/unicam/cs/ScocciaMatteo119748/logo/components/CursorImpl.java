@@ -18,7 +18,7 @@ public class CursorImpl implements Cursor{
         direction = 0;
         lineColor = Color.BLACK;
         areaColor = Color.WHITE;
-        plot = true;
+        plot = false;
     }
 
     public CursorImpl(Point position, int direction, Color lineColor, Color areaColor, boolean plot) {

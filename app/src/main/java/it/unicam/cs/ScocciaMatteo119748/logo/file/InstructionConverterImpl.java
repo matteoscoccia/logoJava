@@ -99,11 +99,10 @@ public class InstructionConverterImpl implements InstructionConverter{
             return new ColorInstruction(comm, color);
         }
         if(comm.getType().equals(CommandType.REPEATINSTRUCTION)){
-            //TODO REPEAT VIENE MESSO DOPO LE ISTRUZIONI DA RIPETERE
             ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
             ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
             System.out.println(nextInstructions);
-            return new RepeatInstruction<BasicInstruction>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
+            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
         }
 
         return null;

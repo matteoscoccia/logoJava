@@ -48,6 +48,6 @@ public class Model {
 
 
     public void executeInstruction(BasicInstruction it) {
-
+        executer.executeInstruction(it);
     }
 }

@@ -11,7 +11,12 @@ public class PlaygroundImpl implements Playground{
     private final int width;
     private final Color background;
 
-    //TODO FORSE VA SALVATA QUA LA LISTA FINALE DI LINEE E SHAPE
+
+    public PlaygroundImpl() {
+        this.height = 0;
+        this.width = 0;
+        this.background = new Color(255,255,255);
+    }
 
     /**
      * Default constructor of the playground, sets the background color to white
