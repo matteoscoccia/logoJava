@@ -9,7 +9,7 @@ public class PlaygroundImpl implements Playground{
 
     private final int height;
     private final int width;
-    private final Color background;
+    private Color background;
 
 
     public PlaygroundImpl() {
@@ -63,5 +63,10 @@ public class PlaygroundImpl implements Playground{
     @Override
     public Color getBackground() {
         return background;
+    }
+
+    @Override
+    public void setBackground(Color background) {
+        this.background = background;
     }
 }

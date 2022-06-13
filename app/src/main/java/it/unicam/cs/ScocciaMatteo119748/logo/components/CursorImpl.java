@@ -12,6 +12,7 @@ public class CursorImpl implements Cursor{
     private Color lineColor;
     private Color areaColor;
     private boolean plot;
+    private int penSize;
 
     public CursorImpl() {
         position = new Point(0,0);
@@ -19,14 +20,16 @@ public class CursorImpl implements Cursor{
         lineColor = Color.BLACK;
         areaColor = Color.WHITE;
         plot = false;
+        penSize = 1;
     }
 
-    public CursorImpl(Point position, int direction, Color lineColor, Color areaColor, boolean plot) {
+    public CursorImpl(Point position, int direction, Color lineColor, Color areaColor, boolean plot, int penSize) {
         this.position = position;
         this.direction = direction;
         this.lineColor = lineColor;
         this.areaColor = areaColor;
         this.plot = plot;
+        this.penSize = penSize;
     }
 
     @Override
@@ -60,22 +63,32 @@ public class CursorImpl implements Cursor{
     }
 
     @Override
+    public int getPenSize() {
+        return penSize;
+    }
+
+    @Override
+    public void setPenSize(int size) {
+        this.penSize = size;
+    }
+
+    @Override
     public Point getPosition() {
-        return null;
+        return position;
     }
 
     @Override
     public void setPosition(Point position) {
-
+        this.position = position;
     }
 
     @Override
     public int getDirection() {
-        return 0;
+        return direction;
     }
 
     @Override
     public void setDirection(int direction) {
-
+        this.direction = direction;
     }
 }

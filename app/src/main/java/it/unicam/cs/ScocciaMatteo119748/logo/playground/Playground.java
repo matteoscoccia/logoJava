@@ -18,4 +18,6 @@ public interface Playground {
     Point getHome();
 
     Color getBackground();
+
+    void setBackground(Color background);
 }

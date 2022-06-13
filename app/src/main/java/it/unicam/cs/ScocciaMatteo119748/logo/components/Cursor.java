@@ -27,4 +27,8 @@ public interface Cursor {
 
     void setPlot(boolean plot);
 
+    int getPenSize();
+
+    void setPenSize(int size);
+
 }
