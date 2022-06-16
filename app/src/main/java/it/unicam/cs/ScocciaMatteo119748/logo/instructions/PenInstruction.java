@@ -8,10 +8,10 @@ import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
  */
 public class PenInstruction implements LogoInstruction{
 
-    private final PenInstructionType type;
+    private final InstructionType type;
     private final int parameter;
 
-    public PenInstruction(PenInstructionType type, int parameter) {
+    public PenInstruction(InstructionType type, int parameter) {
         this.type = type;
         this.parameter = parameter;
     }
@@ -32,9 +32,4 @@ public class PenInstruction implements LogoInstruction{
         return start;
     }
 
-    enum PenInstructionType{
-        PENUP,
-        PENDOWN,
-        SETPENSIZE
-    }
 }

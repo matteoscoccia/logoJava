@@ -5,17 +5,20 @@ import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
 
 import java.awt.*;
 
+import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType.CLEARSCREEN;
+import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType.SETSCREENCOLOR;
+
 public class PlaygroundInstruction implements LogoInstruction{
 
-    private final Type type;
+    private final InstructionType type;
     private final Color color;
 
-    public PlaygroundInstruction(Type type){
+    public PlaygroundInstruction(InstructionType type){
         this.type = type;
         this.color = null;
     }
 
-    public PlaygroundInstruction(Type type, Color color) {
+    public PlaygroundInstruction(InstructionType type, Color color) {
         this.type = type;
         this.color = color;
     }
@@ -37,16 +40,12 @@ public class PlaygroundInstruction implements LogoInstruction{
      * @return Modified field, null if the screen gets cleared
      */
     public Playground performPlaygroundInstruction(Playground field){
-        if(type == Type.CLEARSCREEN){
+        if(type == CLEARSCREEN){
             return null;
-        }else{
+        }else if(type == SETSCREENCOLOR){
             field.setBackground(color);
             return field;
         }
-    }
-
-    enum Type{
-        CLEARSCREEN,
-        SETSCREENCOLOR
+        return null;
     }
 }

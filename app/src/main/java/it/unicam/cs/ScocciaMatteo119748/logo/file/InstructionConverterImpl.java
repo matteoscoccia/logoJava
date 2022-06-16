@@ -3,23 +3,26 @@ package it.unicam.cs.ScocciaMatteo119748.logo.file;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.*;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Basic implementation of an object that converts strings to logo instruction, using the basic set of instructions
  */
 public class InstructionConverterImpl implements InstructionConverter{
 
+    //TODO CAMBIARE IMPLEMENTAZIONE
     private static InstructionConverterImpl instance = null;
     public final ArrayList<Command> commandsList = createCommandsList();
+
+    public final List<InstructionType> instructionTypes;
 
     /**
      * Constructor is private in order to implement singleton pattern
      */
-    private InstructionConverterImpl(){}
+    private InstructionConverterImpl(){
+        instructionTypes = new ArrayList<>(EnumSet.allOf(InstructionType.class));
+    }
 
     /**
      * Returns the single instance in the whole program
@@ -59,12 +62,29 @@ public class InstructionConverterImpl implements InstructionConverter{
      * @param fileStrings the strings read from the file reader
      * @return the list of the instructions of the logo program
      */
-    @Override
+    //OLDVERSION
+    /*@Override
     public ArrayList<BasicInstruction> convert(List<String> fileStrings) {
         ArrayList<BasicInstruction> instructionSet = new ArrayList<>();
         for (String s:
              fileStrings) {
             BasicInstruction in = convertString(s);
+            instructionSet.add(in);
+        }
+        return instructionSet;
+    }*/
+
+    /**
+     * Converts every string received into a logo instruction
+     * @param fileStrings the strings read from the file reader
+     * @return the list of the instructions of the logo program
+     */
+    @Override
+    public ArrayList<LogoInstruction> convert(List<String> fileStrings) {
+        ArrayList<LogoInstruction> instructionSet = new ArrayList<>();
+        for (String s:
+                fileStrings) {
+            LogoInstruction in = convertString(s);
             instructionSet.add(in);
         }
         return instructionSet;
@@ -75,7 +95,8 @@ public class InstructionConverterImpl implements InstructionConverter{
      * @param s string to convert
      * @return converted instruction
      */
-    @Override
+    //OLDVERSION
+    /*@Override
     public BasicInstruction convertString(String s) {
         String[] instructionComponents = s.split(" ");
         if(instructionComponents[0] == null)
@@ -106,7 +127,128 @@ public class InstructionConverterImpl implements InstructionConverter{
         }
 
         return null;
+    }*/
+
+    /**
+     * Converts the given string to an instuction
+     * @param s string to convert
+     * @return converted instruction
+     */
+    @Override
+    public LogoInstruction convertString(String s) {
+        String[] instructionComponents = s.split(" ");
+        if(instructionComponents[0] == null)
+            return null;
+
+        InstructionType type;
+        type = convertInstructionType(instructionComponents[0]);
+
+        //TODO RIPRENDERE DA QUI
+        LogoInstruction instruction = provideInstruction(type, instructionComponents);
+
+        /*if(comm.getType().equals(CommandType.BASICINSTRUCTION))
+            return new BasicInstruction(comm);
+        if(comm.getType().equals(CommandType.SINGLEPARAMETERINSTRUCTION)){
+            int parameter = Integer.parseInt(instructionComponents[1]);
+            return new SingleParameterInstruction(comm, parameter);
+        }
+        if(comm.getType().equals(CommandType.COLORINSTRUCTION)){
+            Color color = new Color(
+                    Integer.parseInt(instructionComponents[1]),
+                    Integer.parseInt(instructionComponents[2]),
+                    Integer.parseInt(instructionComponents[3])
+            );
+            return new ColorInstruction(comm, color);
+        }*/
+
+        /*if(comm.getType().equals(CommandType.REPEATINSTRUCTION)){
+            ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
+            ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
+            System.out.println(nextInstructions);
+            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
+        }*/
+
+        return instruction;
     }
+
+    private LogoInstruction provideInstruction(InstructionType type, String[] instructionComponents) {
+        if(isMoveInstruction(type))
+            return new MoveInstruction(type, Integer.parseInt(instructionComponents[1]));
+        if(isHomeInstruction(type))
+            return new MoveInstruction(type, 0);
+        if(isCursorColorInstruction(type)){
+            Color color = new Color(
+                    Integer.parseInt(instructionComponents[1]),
+                    Integer.parseInt(instructionComponents[2]),
+                    Integer.parseInt(instructionComponents[3])
+            );
+            return new CursorColorInstruction(type, color);
+        }
+        if(isPenPositionInstruction(type))
+            return new PenInstruction(type, 0);
+        if(isPenSizePosition(type))
+            return new PenInstruction(type, Integer.parseInt(instructionComponents[1]));
+        if(isPlaygroundInstruction(type)){
+            Color color = new Color(
+                    Integer.parseInt(instructionComponents[1]),
+                    Integer.parseInt(instructionComponents[2]),
+                    Integer.parseInt(instructionComponents[2])
+            );
+            return new PlaygroundInstruction(type, color);
+        }
+        if(isClearscreenInstruction(type))
+            return new PlaygroundInstruction(type);
+        if(isRepeatInstruction(type)){
+            ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
+            ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
+            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));//TODO FINIRE
+        }
+
+        return null;
+    }
+
+    private boolean isRepeatInstruction(InstructionType type) {
+        return type == InstructionType.REPEAT;
+    }
+
+    private boolean isClearscreenInstruction(InstructionType type){
+        return type == InstructionType.CLEARSCREEN;
+    }
+
+    private boolean isPlaygroundInstruction(InstructionType type) {
+        return type == InstructionType.SETSCREENCOLOR;
+    }
+
+    private boolean isPenSizePosition(InstructionType type) {
+        return type == InstructionType.SETPENSIZE;
+    }
+
+    private boolean isPenPositionInstruction(InstructionType type) {
+        return type == InstructionType.PENUP || type == InstructionType.PENDOWN;
+    }
+
+    private boolean isCursorColorInstruction(InstructionType type) {
+        return type == InstructionType.SETPENCOLOR || type == InstructionType.SETFILLCOLOR;
+    }
+
+    private boolean isHomeInstruction(InstructionType type) {
+        return type == InstructionType.HOME;
+    }
+
+    private boolean isMoveInstruction(InstructionType type) {
+        return type == InstructionType.FORWARD ||
+                type == InstructionType.BACKWARD ||
+                type == InstructionType.RIGHT ||
+                type == InstructionType.LEFT;
+    }
+
+    @Override
+    public InstructionType convertInstructionType(String instructionComponent) {
+        InstructionType a;
+        Optional<InstructionType> type = instructionTypes.stream().filter(x -> x.name().equals(instructionComponent)).findFirst();
+        return type.orElse(null);
+    }
+
 
     /**
      * Parses repeat instructions
@@ -150,10 +292,11 @@ public class InstructionConverterImpl implements InstructionConverter{
         return commandsList.stream().filter(x -> x.getName().equals(s)).count() == 1;
     }
 
-    @Override
+    //OLDVERSION
+    /*@Override
     public Command convertCommand(String instructionComponent) {
         Optional<Command> command = commandsList.stream().filter(x -> x.getName().equals(instructionComponent)).findFirst();
         return command.orElse(null);
-    }
+    }*/
 
 }

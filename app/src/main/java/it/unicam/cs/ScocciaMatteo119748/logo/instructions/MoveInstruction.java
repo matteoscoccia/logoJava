@@ -10,11 +10,11 @@ import java.awt.*;
  */
 public class MoveInstruction implements LogoInstruction{
 
-    private final Direction direction;
+    private final InstructionType type;
     private final int parameter;
 
-    public MoveInstruction(Direction direction, int parameter) {
-        this.direction = direction;
+    public MoveInstruction(InstructionType type, int parameter) {
+        this.type = type;
         this.parameter = parameter;
     }
 
@@ -25,9 +25,9 @@ public class MoveInstruction implements LogoInstruction{
      */
     @Override
     public Cursor performInstruction(Cursor start, Playground field) {
-        switch(this.direction){
+        switch(this.type){
             case FORWARD -> start.setPosition(move(start.getPosition(), start.getDirection(), parameter));
-            case BACKWARDS -> start.setPosition(move(start.getPosition(), start.getDirection(), -parameter));
+            case BACKWARD -> start.setPosition(move(start.getPosition(), start.getDirection(), -parameter));
             case LEFT -> start.setDirection((start.getDirection() + parameter)%360);
             case RIGHT -> start.setDirection((start.getDirection() - parameter)%360);
             case HOME -> start.setPosition(field.getHome());
@@ -47,22 +47,14 @@ public class MoveInstruction implements LogoInstruction{
         var y = point.getY();
         var rad = radians(angle % 360);
 
-        x += parameter*Math.sin(rad);
-        y += parameter*Math.cos(rad);
+        x += parameter*Math.cos(rad);
+        y += parameter*Math.sin(rad);
 
         return new Point((int)Math.round(x), (int)Math.round(y));
     }
 
     double radians (int degrees) {
         return degrees * Math.PI / 180;
-    }
-
-    enum Direction{
-        FORWARD,
-        BACKWARDS,
-        LEFT,
-        RIGHT,
-        HOME
     }
 }
 

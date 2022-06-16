@@ -27,4 +27,9 @@ public abstract class AbstractLine implements ExecutionResult{
     int getSize(){
         return size;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

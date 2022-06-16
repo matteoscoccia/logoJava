@@ -13,4 +13,14 @@ public class StraightLine extends AbstractLine{
         this.color = color;
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return "StraightLine{" +
+                "startingPoint=" + startingPoint +
+                ", endingPoint=" + endingPoint +
+                ", color=" + color +
+                ", size=" + size +
+                '}';
+    }
 }

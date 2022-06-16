@@ -2,6 +2,7 @@ package it.unicam.cs.ScocciaMatteo119748.logo.file;
 
 
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.BasicInstruction;
+import it.unicam.cs.ScocciaMatteo119748.logo.instructions.LogoInstruction;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,9 +49,13 @@ public class FileReaderImpl implements FileReader {
      * Converts the strings list into an instruction list
      * @return the generate instructions list
      */
-    public ArrayList<BasicInstruction> getInstructionsList(){
+    public ArrayList<LogoInstruction> getInstructionsList(){
         return converter.convert(fileStrings);
     }
+    //OLDVERSION
+    /*public ArrayList<BasicInstruction> getInstructionsList(){
+        return converter.convert(fileStrings);
+    }*/
 
     //TODO IMPLEMENTARE METODO
     @Override

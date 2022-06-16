@@ -6,6 +6,7 @@ package it.unicam.cs.ScocciaMatteo119748.implementation;
 import it.unicam.cs.ScocciaMatteo119748.logo.file.FileReaderImpl;
 import it.unicam.cs.ScocciaMatteo119748.logo.file.InstructionConverterImpl;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.BasicInstruction;
+import it.unicam.cs.ScocciaMatteo119748.logo.instructions.LogoInstruction;
 
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class App {
         String path = "C:\\Users\\matte\\Desktop\\secondInstructionSet.txt";
         InstructionConverterImpl converter = InstructionConverterImpl.getInstance();
         FileReaderImpl reader = new FileReaderImpl(path, converter);
-        for (BasicInstruction in:
+        for (LogoInstruction in:
              reader.getInstructionsList()) {
             System.out.println(in.toString());
         }

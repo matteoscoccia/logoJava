@@ -31,4 +31,5 @@ public interface Cursor {
 
     void setPenSize(int size);
 
+    Cursor copy();
 }

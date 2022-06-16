@@ -19,7 +19,7 @@ public class CursorImpl implements Cursor{
         direction = 0;
         lineColor = Color.BLACK;
         areaColor = Color.WHITE;
-        plot = false;
+        plot = true;
         penSize = 1;
     }
 
@@ -73,6 +73,11 @@ public class CursorImpl implements Cursor{
     }
 
     @Override
+    public Cursor copy() {
+        return new CursorImpl(position, direction, lineColor, areaColor, plot, penSize);
+    }
+
+    @Override
     public Point getPosition() {
         return position;
     }
@@ -90,5 +95,17 @@ public class CursorImpl implements Cursor{
     @Override
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    @Override
+    public String toString() {
+        return "CursorImpl{" +
+                "position=" + position +
+                ", direction=" + direction +
+                ", lineColor=" + lineColor +
+                ", areaColor=" + areaColor +
+                ", plot=" + plot +
+                ", penSize=" + penSize +
+                '}';
     }
 }
