@@ -12,6 +12,7 @@ public class Controller {
 
     private final Model model;
     private final ViewClass view;
+    private String instructionSetPath;
 
     public Controller(ViewClass view) {
         this.view = view;
@@ -20,14 +21,22 @@ public class Controller {
 
     public void exec(){
         model.provideInstructionFromFile();
-        ArrayList<ExecutionResult> previousInstructionResults = new ArrayList<>();
 
         model.instructions.forEach(
-                it -> {
-                    model.executeInstruction(it);
-                    view.showInstructionResult(model.getExecuter().programResult);
-                }
+                model::executeInstruction
         );
+
+        model.getExecuter().getProgramResult().forEach(
+                view::showExecutionResult
+        );
+
+        view.saveExecutionFile(
+                model.getExecuter().getProgramResult(),
+                instructionSetPath,
+                model.getExecuter().getPlayground()
+        );
+
+
         /*model.executer.history.forEach(
                 System.out::println
         );*/
@@ -35,13 +44,13 @@ public class Controller {
                 System.out::println
         );*/
         //System.out.println(model.executer.playground.getWidth() + " " + model.executer.playground.getHeight() + " " + model.executer.playground.getBackground());
-        model.getExecuter().programResult.forEach(
+        /*model.getExecuter().getProgramResult().forEach(
                 it -> System.out.println(it.getOutputRepresentation())
         );
 
-        model.getExecuter().programResult.forEach(
+        model.getExecuter().getProgramResult().forEach(
                 it -> System.out.println(it.getExecution())
-        );
+        );*/
     }
 
     /**
@@ -49,10 +58,10 @@ public class Controller {
      * @return the model
      */
     private Model prepareModel() {
-        String path = view.getFilePath();
+        instructionSetPath = view.getFilePath();
         int playgroundWidth = view.getPlaygroundWidth();
         int playgroundHeigth = view.getPlaygroundHeigth();
-        return new Model(path,
+        return new Model(instructionSetPath,
                 new PlaygroundImpl(playgroundWidth, playgroundHeigth));
     }
 }

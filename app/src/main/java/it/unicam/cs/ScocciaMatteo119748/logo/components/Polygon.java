@@ -98,8 +98,7 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
     @Override
     public String getExecution() {
         String execution = "\nDrawn POLYGON with " + numEdges + " edges filled with [R,G,B] = " + areaColor.getRed() +
-                " " + areaColor.getGreen() + " " + areaColor.getBlue() +
-                "\n ";
+                " " + areaColor.getGreen() + " " + areaColor.getBlue();
         for (AbstractLine edge :
                 edges) {
             execution += "\n" + edge.getStartingPoint().getX() + " " + edge.getStartingPoint().getY() +

@@ -1,6 +1,7 @@
 package it.unicam.cs.ScocciaMatteo119748.implementation;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.ExecutionResult;
+import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
 
 import java.util.ArrayList;
 
@@ -19,5 +20,7 @@ public interface ViewClass {
 
     int getPlaygroundHeigth();
 
-    void showInstructionResult(ArrayList<ExecutionResult> instructionResult);
+    void showExecutionResult(ExecutionResult executionResult);
+
+    void saveExecutionFile(ArrayList<ExecutionResult> executionResult, String startingPath, Playground playground);
 }

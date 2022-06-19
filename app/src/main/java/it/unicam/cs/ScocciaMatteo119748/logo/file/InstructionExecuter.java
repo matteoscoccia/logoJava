@@ -24,7 +24,7 @@ public class InstructionExecuter {
     public Playground playground = new PlaygroundImpl();
 
     //The resulting program execution list
-    public ArrayList<ExecutionResult> programResult = new ArrayList<>();
+    private ArrayList<ExecutionResult> programResult = new ArrayList<>();
     public ArrayList<AbstractLine> lines = new ArrayList<>();
     public Polygon<AbstractLine> currentPolygon = new Polygon<>();
 
@@ -86,6 +86,7 @@ public class InstructionExecuter {
     private void clearScreen() {
         //TODO RIMUOVERE ANCHE POLIGONI ECC
         lines.clear();
+        programResult.clear();
     }
 
     private void drawLine(Cursor nextCursor, Cursor previousCursor) {
@@ -124,5 +125,13 @@ public class InstructionExecuter {
 
     private boolean cursorMoved(Cursor previousCursor, Cursor cursor) {
         return (previousCursor.getPosition().x != cursor.getPosition().x) || (previousCursor.getPosition().y != cursor.getPosition().y);
+    }
+
+    public ArrayList<ExecutionResult> getProgramResult() {
+        return programResult;
+    }
+
+    public Playground getPlayground(){
+        return playground;
     }
 }

@@ -192,7 +192,7 @@ public class InstructionConverterImpl implements InstructionConverter{
             Color color = new Color(
                     Integer.parseInt(instructionComponents[1]),
                     Integer.parseInt(instructionComponents[2]),
-                    Integer.parseInt(instructionComponents[2])
+                    Integer.parseInt(instructionComponents[3])
             );
             return new PlaygroundInstruction(type, color);
         }
@@ -201,7 +201,7 @@ public class InstructionConverterImpl implements InstructionConverter{
         if(isRepeatInstruction(type)){
             ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
             ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
-            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));//TODO FINIRE
+            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
         }
 
         return null;

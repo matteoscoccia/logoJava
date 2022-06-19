@@ -69,4 +69,10 @@ public class PlaygroundImpl implements Playground{
     public void setBackground(Color background) {
         this.background = background;
     }
+
+    @Override
+    public String outputRepresentation() {
+        return "SIZE " + width + " " + height + " " + background.getRed() + " " + background.getGreen() + " " + background.getBlue();
+    }
+
 }

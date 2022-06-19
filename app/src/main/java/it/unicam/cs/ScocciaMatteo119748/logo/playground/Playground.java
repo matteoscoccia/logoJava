@@ -20,4 +20,6 @@ public interface Playground {
     Color getBackground();
 
     void setBackground(Color background);
+
+    String outputRepresentation();
 }
