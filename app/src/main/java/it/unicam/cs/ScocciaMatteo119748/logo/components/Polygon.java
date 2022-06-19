@@ -56,6 +56,10 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
         updateEdgesCount();
     }
 
+    /**
+     * Checks that the lines the polygon is made of intersect, so that the polygon is closed
+     * @return true if the polygon is closed
+     */
     public boolean checkPolygonClosed() {
         Iterator<T> edgesIterator = edges.iterator();
         while(edgesIterator.hasNext()){
@@ -71,6 +75,10 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
         return false;
     }
 
+    /**
+     * Closes the poligon removing the edges before the given
+     * @param edge starting edge of the polygon
+     */
     private void closePolygon(T edge) {
         int firstEdgeIndex = edges.indexOf(edge);
         edges.removeAll(edges.subList(0,firstEdgeIndex));//Removes all the previous edges
@@ -81,6 +89,10 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
         return new Polygon<T>(numEdges, areaColor, edges);
     }
 
+    /**
+     * Returns the representation to be printed on a file
+     * @return string representation
+     */
     @Override
     public String getOutputRepresentation() {
         String printresult;
@@ -95,6 +107,10 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
         return printresult;
     }
 
+    /**
+     * Returns the execution of the polygon
+     * @return string execution
+     */
     @Override
     public String getExecution() {
         String execution = "\nDrawn POLYGON with " + numEdges + " edges filled with [R,G,B] = " + areaColor.getRed() +

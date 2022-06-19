@@ -1,11 +1,13 @@
-package it.unicam.cs.ScocciaMatteo119748.logo.playground;
+package it.unicam.cs.ScocciaMatteo119748.logo.components;
+
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
 
 import java.awt.*;
 
 /**
  * Default implementation of the drawing area
  */
-public class PlaygroundImpl implements Playground{
+public class PlaygroundImpl implements Playground {
 
     private final int height;
     private final int width;
@@ -70,6 +72,10 @@ public class PlaygroundImpl implements Playground{
         this.background = background;
     }
 
+    /**
+     * Provides a string representation of the playground with a specific format in order to be written on the output file
+     * @return string representation
+     */
     @Override
     public String outputRepresentation() {
         return "SIZE " + width + " " + height + " " + background.getRed() + " " + background.getGreen() + " " + background.getBlue();

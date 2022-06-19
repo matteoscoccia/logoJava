@@ -1,7 +1,6 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.file;
 
 
-import it.unicam.cs.ScocciaMatteo119748.logo.instructions.BasicInstruction;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.LogoInstruction;
 
 import java.io.IOException;
@@ -17,7 +16,6 @@ public class FileReaderImpl implements FileReader {
 
     private List<String> fileStrings;
     private final Path filePath;
-    private final List<BasicInstruction> instructionList;
     private final InstructionConverter converter;
 
     /**
@@ -28,7 +26,6 @@ public class FileReaderImpl implements FileReader {
     public FileReaderImpl(String path, InstructionConverter converter) {
         filePath = Path.of(path);
         fileStrings  = new ArrayList<>();
-        instructionList = new ArrayList<>();
         this.converter = converter;
         readStringsList();
     }
@@ -52,14 +49,5 @@ public class FileReaderImpl implements FileReader {
     public ArrayList<LogoInstruction> getInstructionsList(){
         return converter.convert(fileStrings);
     }
-    //OLDVERSION
-    /*public ArrayList<BasicInstruction> getInstructionsList(){
-        return converter.convert(fileStrings);
-    }*/
 
-    //TODO IMPLEMENTARE METODO
-    @Override
-    public BasicInstruction readNextInstruction() {
-        return null;
-    }
 }

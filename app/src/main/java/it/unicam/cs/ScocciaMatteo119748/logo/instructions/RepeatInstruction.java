@@ -1,14 +1,14 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.instructions;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.Cursor;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An instruction that repeats the specified instructions for a number of times
- * @param <T>
+ * An instruction that repeats the specified set of instructions for a number of times
+ * @param <T> type of the instruction set
  */
 public class RepeatInstruction<T extends LogoInstruction> implements LogoInstruction{
 
@@ -16,7 +16,7 @@ public class RepeatInstruction<T extends LogoInstruction> implements LogoInstruc
     private final List<T> instructionList;
     private final InstructionType type = InstructionType.REPEAT;
 
-    private ArrayList<Cursor> cursorHistory;
+    private final ArrayList<Cursor> cursorHistory;
 
     public RepeatInstruction(int times, List<T> instructionList) {
         this.times = times;

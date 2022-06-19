@@ -11,10 +11,7 @@ import java.util.List;
  */
 public class InstructionConverterImpl implements InstructionConverter{
 
-    //TODO CAMBIARE IMPLEMENTAZIONE
     private static InstructionConverterImpl instance = null;
-    public final ArrayList<Command> commandsList = createCommandsList();
-
     public final List<InstructionType> instructionTypes;
 
     /**
@@ -34,45 +31,6 @@ public class InstructionConverterImpl implements InstructionConverter{
         }
         return instance;
     }
-
-    /**
-     * Creates the commands set that the converter needs to be aware of. This builds the basic instruction set of logo
-     * @return the commands list that the converter will recognize
-     */
-    private ArrayList<Command> createCommandsList() {
-        ArrayList<Command> commandsList =  new ArrayList<>();
-        commandsList.add(new Command("FORWARD", CommandType.SINGLEPARAMETERINSTRUCTION));
-        commandsList.add(new Command("BACKWARD", CommandType.SINGLEPARAMETERINSTRUCTION));
-        commandsList.add(new Command("LEFT", CommandType.SINGLEPARAMETERINSTRUCTION));
-        commandsList.add(new Command("RIGHT", CommandType.SINGLEPARAMETERINSTRUCTION));
-        commandsList.add(new Command("CLEARSCREEN", CommandType.BASICINSTRUCTION));
-        commandsList.add(new Command("HOME", CommandType.BASICINSTRUCTION));
-        commandsList.add(new Command("PENUP", CommandType.BASICINSTRUCTION));
-        commandsList.add(new Command("PENDOWN", CommandType.BASICINSTRUCTION));
-        commandsList.add(new Command("SETPENCOLOR", CommandType.COLORINSTRUCTION));
-        commandsList.add(new Command("SETFILLCOLOR", CommandType.COLORINSTRUCTION));
-        commandsList.add(new Command("SETSCREENCOLOR",CommandType.COLORINSTRUCTION));
-        commandsList.add(new Command("SETPENSIZE", CommandType.SINGLEPARAMETERINSTRUCTION));
-        commandsList.add(new Command("REPEAT", CommandType.REPEATINSTRUCTION));
-        return  commandsList;
-    }
-
-    /**
-     * Converts every string received into a logo instruction
-     * @param fileStrings the strings read from the file reader
-     * @return the list of the instructions of the logo program
-     */
-    //OLDVERSION
-    /*@Override
-    public ArrayList<BasicInstruction> convert(List<String> fileStrings) {
-        ArrayList<BasicInstruction> instructionSet = new ArrayList<>();
-        for (String s:
-             fileStrings) {
-            BasicInstruction in = convertString(s);
-            instructionSet.add(in);
-        }
-        return instructionSet;
-    }*/
 
     /**
      * Converts every string received into a logo instruction
@@ -95,45 +53,6 @@ public class InstructionConverterImpl implements InstructionConverter{
      * @param s string to convert
      * @return converted instruction
      */
-    //OLDVERSION
-    /*@Override
-    public BasicInstruction convertString(String s) {
-        String[] instructionComponents = s.split(" ");
-        if(instructionComponents[0] == null)
-            return null;
-
-        Command comm;
-        comm = convertCommand(instructionComponents[0]);
-
-        if(comm.getType().equals(CommandType.BASICINSTRUCTION))
-            return new BasicInstruction(comm);
-        if(comm.getType().equals(CommandType.SINGLEPARAMETERINSTRUCTION)){
-            int parameter = Integer.parseInt(instructionComponents[1]);
-            return new SingleParameterInstruction(comm, parameter);
-        }
-        if(comm.getType().equals(CommandType.COLORINSTRUCTION)){
-            Color color = new Color(
-                    Integer.parseInt(instructionComponents[1]),
-                    Integer.parseInt(instructionComponents[2]),
-                    Integer.parseInt(instructionComponents[2])
-            );
-            return new ColorInstruction(comm, color);
-        }
-        if(comm.getType().equals(CommandType.REPEATINSTRUCTION)){
-            ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
-            ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
-            System.out.println(nextInstructions);
-            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
-        }
-
-        return null;
-    }*/
-
-    /**
-     * Converts the given string to an instuction
-     * @param s string to convert
-     * @return converted instruction
-     */
     @Override
     public LogoInstruction convertString(String s) {
         String[] instructionComponents = s.split(" ");
@@ -142,35 +61,15 @@ public class InstructionConverterImpl implements InstructionConverter{
 
         InstructionType type;
         type = convertInstructionType(instructionComponents[0]);
-
-        //TODO RIPRENDERE DA QUI
-        LogoInstruction instruction = provideInstruction(type, instructionComponents);
-
-        /*if(comm.getType().equals(CommandType.BASICINSTRUCTION))
-            return new BasicInstruction(comm);
-        if(comm.getType().equals(CommandType.SINGLEPARAMETERINSTRUCTION)){
-            int parameter = Integer.parseInt(instructionComponents[1]);
-            return new SingleParameterInstruction(comm, parameter);
-        }
-        if(comm.getType().equals(CommandType.COLORINSTRUCTION)){
-            Color color = new Color(
-                    Integer.parseInt(instructionComponents[1]),
-                    Integer.parseInt(instructionComponents[2]),
-                    Integer.parseInt(instructionComponents[3])
-            );
-            return new ColorInstruction(comm, color);
-        }*/
-
-        /*if(comm.getType().equals(CommandType.REPEATINSTRUCTION)){
-            ArrayList<String> nextCommands = new ArrayList<>(Arrays.asList(instructionComponents));
-            ArrayList<String> nextInstructions = new ArrayList<>(parseNestedCommands(nextCommands));
-            System.out.println(nextInstructions);
-            return new RepeatInstruction<>(Integer.parseInt(instructionComponents[1]), convert(nextInstructions));
-        }*/
-
-        return instruction;
+        return provideInstruction(type, instructionComponents);
     }
 
+    /**
+     * Actully builds the instruction pairing the instruction type with the parameters
+     * @param type instruction type
+     * @param instructionComponents parameters of the instruction
+     * @return the actual instruction
+     */
     private LogoInstruction provideInstruction(InstructionType type, String[] instructionComponents) {
         if(isMoveInstruction(type))
             return new MoveInstruction(type, Integer.parseInt(instructionComponents[1]));
@@ -242,6 +141,11 @@ public class InstructionConverterImpl implements InstructionConverter{
                 type == InstructionType.LEFT;
     }
 
+    /**
+     * Converts the string read from the file to an instruction type to build the instruction
+     * @param instructionComponent
+     * @return type of the instruction
+     */
     @Override
     public InstructionType convertInstructionType(String instructionComponent) {
         InstructionType a;
@@ -265,11 +169,16 @@ public class InstructionConverterImpl implements InstructionConverter{
         return convertToStringList(nextCommands);
     }
 
+    /**
+     * Formats the nested strings
+     * @param nextCommands next strings from the file
+     * @return
+     */
     private List<String> convertToStringList(ArrayList<String> nextCommands) {
         ArrayList<String> newStringList = new ArrayList<>();
         for (String s:
              nextCommands) {
-            if(isCommand(s)){//Se è un comando formo un'unica stringa con i parametri
+            if(isInstruction(s)){//Se è un comando formo un'unica stringa con i parametri
                 String newString = "\n".concat(s);
                 newStringList.add(newString);
             }else{
@@ -280,6 +189,11 @@ public class InstructionConverterImpl implements InstructionConverter{
         return convertStringToInstructionList(concatInstructions);
     }
 
+    /**
+     * Formats the string to instruction format
+     * @param concatInstructions
+     * @return
+     */
     private ArrayList<String> convertStringToInstructionList(String concatInstructions) {
         String[] instructionsArray = concatInstructions.split("\n");
         List<String> instructionsList = Arrays.asList(instructionsArray);
@@ -288,15 +202,13 @@ public class InstructionConverterImpl implements InstructionConverter{
         return instructions;
     }
 
-    private boolean isCommand(String s) {
-        return commandsList.stream().filter(x -> x.getName().equals(s)).count() == 1;
+    /**
+     * Checks if the given string is a compliant string
+     * @param s
+     * @return
+     */
+    private boolean isInstruction(String s){
+        return instructionTypes.stream().filter(it -> it.toString().equals(s)).count() == 1;
     }
-
-    //OLDVERSION
-    /*@Override
-    public Command convertCommand(String instructionComponent) {
-        Optional<Command> command = commandsList.stream().filter(x -> x.getName().equals(instructionComponent)).findFirst();
-        return command.orElse(null);
-    }*/
 
 }

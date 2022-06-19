@@ -1,4 +1,4 @@
-package it.unicam.cs.ScocciaMatteo119748.logo.playground;
+package it.unicam.cs.ScocciaMatteo119748.logo.components;
 
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.instructions;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.Cursor;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
 
 /**
  * Represents an instruction performed on the pen of the cursor

@@ -2,31 +2,27 @@ package it.unicam.cs.ScocciaMatteo119748.logo.file;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.*;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.*;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.PlaygroundImpl;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.PlaygroundImpl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Converts instructions into Shapes and Lines to be drawn
+ * Performs the instructions and converts them into Shapes and Lines to be drawn
  */
 public class InstructionExecuter {
 
-    //TODO IMPLEMENTARE
     private static InstructionExecuter instance = null;
-    //private ArrayList<Command> commandsList = new ArrayList<>();
-    //private List<InstructionType> instructionTypes;
 
-    public List<Cursor> history = new ArrayList<>();
+    //public List<Cursor> history = new ArrayList<>();
 
     private Cursor cursor = new CursorImpl();
     public Playground playground = new PlaygroundImpl();
 
     //The resulting program execution list
-    private ArrayList<ExecutionResult> programResult = new ArrayList<>();
-    public ArrayList<AbstractLine> lines = new ArrayList<>();
-    public Polygon<AbstractLine> currentPolygon = new Polygon<>();
+    private final ArrayList<ExecutionResult> programResult = new ArrayList<>();
+    private ArrayList<AbstractLine> lines = new ArrayList<>();
+    private Polygon<AbstractLine> currentPolygon = new Polygon<>();
 
     /**
      * Constructor is private in order to implement singleton pattern
@@ -49,17 +45,10 @@ public class InstructionExecuter {
      * @param it instruction
      */
     public void executeInstruction(LogoInstruction it) {
-        //TODO GESTIRE VALORI CURSORE NULL [FATTO?]
-        //TODO CAMBIARE PASSAGGIO PER RIFERIMENTO CURSORI [FATTO]
-        //TODO GESTIRE POLIGONI
-        //TODO CALCOLO DIMENSIONI FIELD
-        //TODO STAMPA SU FILE
         Cursor nextCursor = cursor.copy();
-        System.out.println(nextCursor.toString());
         if(!(it instanceof RepeatInstruction<?>)) {
             if(!(it instanceof PlaygroundInstruction)) {
                 nextCursor = it.performInstruction(nextCursor, playground);
-                history.add(nextCursor);
                 drawLine(nextCursor, cursor);
                 cursor = nextCursor.copy();
             }else{
@@ -69,14 +58,10 @@ public class InstructionExecuter {
                 else clearScreen();
             }
         }else{
-            System.out.println("NEXT CURSOR BEFORE NESTED: " + nextCursor);
             ArrayList<Cursor> nextCursorStates = ((RepeatInstruction<LogoInstruction>) it).performNestedInstruction(nextCursor, playground);
-            System.out.println("EXECUTER CURSOR AFTER NESTED: " + cursor);
-            history.addAll(nextCursorStates);
             for (Cursor c:
                  nextCursorStates
             ) {
-                System.out.println("NESTED NEXT CURSOR STATE: " + c.toString());
                 drawLine(c, cursor);
                 cursor = c.copy();
             }
@@ -84,11 +69,15 @@ public class InstructionExecuter {
     }
 
     private void clearScreen() {
-        //TODO RIMUOVERE ANCHE POLIGONI ECC
         lines.clear();
         programResult.clear();
     }
 
+    /**
+     * Draws a line between the given cursors if the pen is down
+     * @param nextCursor final point
+     * @param previousCursor initial point
+     */
     private void drawLine(Cursor nextCursor, Cursor previousCursor) {
         if (cursorMoved(nextCursor, previousCursor)) {
             if (previousCursor.isPlot()) {
@@ -103,6 +92,11 @@ public class InstructionExecuter {
         }
     }
 
+    /**
+     * Adds the given line to the current polygon and checks if the polygon is closed
+     * @param newLine line to add
+     * @param previousCursor previous cursor state
+     */
     private void drawPolygon(AbstractLine newLine, Cursor previousCursor) {
         currentPolygon.addEdge(newLine);
         currentPolygon.setAreaColor(previousCursor.getAreaColor());
@@ -123,6 +117,12 @@ public class InstructionExecuter {
         this.playground = playground;
     }
 
+    /**
+     * Checks if the cursor performed a movement
+     * @param previousCursor previous cursor state
+     * @param cursor current cursor state
+     * @return true if the cursor moved
+     */
     private boolean cursorMoved(Cursor previousCursor, Cursor cursor) {
         return (previousCursor.getPosition().x != cursor.getPosition().x) || (previousCursor.getPosition().y != cursor.getPosition().y);
     }

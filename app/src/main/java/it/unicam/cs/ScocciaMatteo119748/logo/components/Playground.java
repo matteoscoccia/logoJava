@@ -1,4 +1,4 @@
-package it.unicam.cs.ScocciaMatteo119748.logo.playground;
+package it.unicam.cs.ScocciaMatteo119748.logo.components;
 
 import java.awt.*;
 
@@ -21,5 +21,9 @@ public interface Playground {
 
     void setBackground(Color background);
 
+    /**
+     * Defines a string representation of the playground
+     * @return
+     */
     String outputRepresentation();
 }

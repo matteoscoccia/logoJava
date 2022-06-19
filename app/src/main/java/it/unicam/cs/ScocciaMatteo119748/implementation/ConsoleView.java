@@ -1,7 +1,7 @@
 package it.unicam.cs.ScocciaMatteo119748.implementation;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.ExecutionResult;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class ConsoleView implements ViewClass {
      */
     @Override
     public String getFilePath() {
-        System.out.println("Inserire il path del file txt contenente le istruzioni da eseguire:");
+        System.out.println("Type the path of the txt file with te instructions to execute:");
         return input.nextLine();
     }
 
@@ -52,14 +52,23 @@ public class ConsoleView implements ViewClass {
         return width;
     }
 
+    /**
+     * Shows the result of execution of an instruction
+     * @param executionResult result of the instruction
+     */
     @Override
     public void showExecutionResult(ExecutionResult executionResult) {
         System.out.println(executionResult.getExecution());
     }
 
+    /**
+     * Stores the execution result to a file
+     * @param executionResult result of the execution
+     * @param startingPath path of the instruction file
+     * @param playground area of the drawing
+     */
     @Override
     public void saveExecutionFile(ArrayList<ExecutionResult> executionResult, String startingPath, Playground playground) {
-
         File output = createOutputFile(startingPath);
 
         if(output != null) {
@@ -68,7 +77,6 @@ public class ConsoleView implements ViewClass {
                 String outputString = provideOutputResult(executionResult, playground);
                 pw.print(outputString);
                 pw.close();
-                //Files.write(Paths.get(output.getPath()), outputString.getBytes(), StandardOpenOption.APPEND);
             } catch (IOException e) {
                 System.out.println("Error writing to output file");
             }
@@ -76,9 +84,14 @@ public class ConsoleView implements ViewClass {
         }else{
             System.out.println("Error creating output file");
         }
-
     }
 
+    /**
+     * Converts the program result to a string to be written to a file
+     * @param executionResult program result
+     * @param playground drawing area
+     * @return
+     */
     private String provideOutputResult(ArrayList<ExecutionResult> executionResult, Playground playground) {
         String output = playground.outputRepresentation();
         for (ExecutionResult r:
@@ -88,6 +101,11 @@ public class ConsoleView implements ViewClass {
         return output;
     }
 
+    /**
+     * Creates the file where the program result will be written
+     * @param startingPath logo instruction set path
+     * @return the output blank file
+     */
     private File createOutputFile(String startingPath) {
         Path path = Paths.get(startingPath);
         String directory = path.getParent().toString();//Output directory

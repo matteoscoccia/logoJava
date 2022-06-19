@@ -13,7 +13,7 @@ public interface ExecutionResult {
 
     /**
      * Returns a string representing the execution of the element
-     * @return
+     * @return the execution of the instruction
      */
     String getExecution();
 

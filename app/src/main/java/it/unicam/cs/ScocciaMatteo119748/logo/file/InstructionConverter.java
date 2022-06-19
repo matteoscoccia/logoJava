@@ -1,7 +1,5 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.file;
 
-import it.unicam.cs.ScocciaMatteo119748.logo.instructions.BasicInstruction;
-import it.unicam.cs.ScocciaMatteo119748.logo.instructions.Command;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.LogoInstruction;
 
@@ -13,16 +11,12 @@ import java.util.List;
  */
 public interface InstructionConverter {
 
-    //TODO RIPROGETTARE L'INSTRUCTION CONVERTER
-
     /**
      * Converts every string received to a logo instruction
      * @param fileStrings strings to convert
      * @return list of instructions
      */
     ArrayList<LogoInstruction> convert(List<String> fileStrings);
-    //OLDVERSION
-    //ArrayList<BasicInstruction> convert(List<String> fileStrings);
 
     /**
      * Converts the string given as a parameter to a logo instruction
@@ -38,6 +32,4 @@ public interface InstructionConverter {
      */
     InstructionType convertInstructionType(String instructionComponent);
 
-    //OLDVERSION
-    //Command convertCommand(String instructionComponent);
 }

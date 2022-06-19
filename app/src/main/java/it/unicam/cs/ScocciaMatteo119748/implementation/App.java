@@ -3,28 +3,15 @@
  */
 package it.unicam.cs.ScocciaMatteo119748.implementation;
 
-import it.unicam.cs.ScocciaMatteo119748.logo.file.FileReaderImpl;
-import it.unicam.cs.ScocciaMatteo119748.logo.file.InstructionConverterImpl;
-import it.unicam.cs.ScocciaMatteo119748.logo.instructions.BasicInstruction;
-import it.unicam.cs.ScocciaMatteo119748.logo.instructions.LogoInstruction;
-
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
-        String path = "C:\\Users\\matte\\Desktop\\secondInstructionSet.txt";
-        InstructionConverterImpl converter = InstructionConverterImpl.getInstance();
-        FileReaderImpl reader = new FileReaderImpl(path, converter);
-        for (LogoInstruction in:
-             reader.getInstructionsList()) {
-            System.out.println(in.toString());
-        }
-
         Scanner input = new Scanner(System.in);
         int choice;
         do {
-            System.out.println("LOGO INSTRUCTION PRINTER");
+            System.out.println("LOGO INSTRUCTION EXECUTER");
             System.out.println("1) Console Execution");
             System.out.println("2) GUI Execution");
             choice = Integer.parseInt(input.nextLine());
@@ -37,9 +24,6 @@ public class App {
         }else if(choice == 2){
             //Costruire il controller passando una GUIView
         }
-        //model.start();
         controller.exec();
-        //controller.lastHands(model,view);
-        //controller.checkWinner(model,view);
     }
 }

@@ -24,6 +24,10 @@ public class StraightLine extends AbstractLine{
                 '}';
     }
 
+    /**
+     * Returns the execution of the line
+     * @return string execution
+     */
     @Override
     public String getOutputRepresentation() {
         return "\nLINE " + startingPoint.getX() + " " + startingPoint.getY()
@@ -32,6 +36,10 @@ public class StraightLine extends AbstractLine{
                 + " " + size;
     }
 
+    /**
+     * Returns the representation to be printed on a file
+     * @return string representation
+     */
     @Override
     public String getExecution() {
         return "\nDrawn a LINE from: [" + startingPoint.getX() + "," + startingPoint.getY()

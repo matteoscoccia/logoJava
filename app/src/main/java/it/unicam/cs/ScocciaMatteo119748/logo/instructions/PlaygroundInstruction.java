@@ -1,13 +1,16 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.instructions;
 
 import it.unicam.cs.ScocciaMatteo119748.logo.components.Cursor;
-import it.unicam.cs.ScocciaMatteo119748.logo.playground.Playground;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
 
 import java.awt.*;
 
 import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType.CLEARSCREEN;
 import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType.SETSCREENCOLOR;
 
+/**
+ * Represents an instruction that is performed on the playground such as a Screen Color instruction
+ */
 public class PlaygroundInstruction implements LogoInstruction{
 
     private final InstructionType type;

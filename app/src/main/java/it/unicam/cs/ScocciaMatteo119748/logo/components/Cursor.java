@@ -3,7 +3,7 @@ package it.unicam.cs.ScocciaMatteo119748.logo.components;
 import java.awt.*;
 
 /**
- * Represents the cursor of the drawing
+ * Represents the cursor of the drawing moved by the instructions
  */
 public interface Cursor {
 
