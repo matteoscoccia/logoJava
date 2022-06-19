@@ -56,6 +56,14 @@ public class MoveInstruction implements LogoInstruction{
     double radians (int degrees) {
         return degrees * Math.PI / 180;
     }
+
+    public InstructionType getType() {
+        return type;
+    }
+
+    public int getParameter() {
+        return parameter;
+    }
 }
 
 

@@ -14,8 +14,6 @@ public class InstructionExecuter {
 
     private static InstructionExecuter instance = null;
 
-    //public List<Cursor> history = new ArrayList<>();
-
     private Cursor cursor = new CursorImpl();
     public Playground playground = new PlaygroundImpl();
 

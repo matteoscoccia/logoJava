@@ -36,4 +36,12 @@ public class CursorColorInstruction implements LogoInstruction{
         }
         return start;
     }
+
+    public InstructionType getType() {
+        return type;
+    }
+
+    public Color getColor() {
+        return color;
+    }
 }

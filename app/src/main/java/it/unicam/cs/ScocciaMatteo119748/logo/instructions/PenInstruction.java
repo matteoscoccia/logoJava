@@ -32,4 +32,11 @@ public class PenInstruction implements LogoInstruction{
         return start;
     }
 
+    public InstructionType getType() {
+        return type;
+    }
+
+    public int getParameter() {
+        return parameter;
+    }
 }

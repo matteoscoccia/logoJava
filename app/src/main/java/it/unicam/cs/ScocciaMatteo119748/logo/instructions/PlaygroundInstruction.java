@@ -51,4 +51,12 @@ public class PlaygroundInstruction implements LogoInstruction{
         }
         return null;
     }
+
+    public InstructionType getType() {
+        return type;
+    }
+
+    public Color getColor() {
+        return color;
+    }
 }

@@ -26,5 +26,9 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'it.unicam.cs.ScocciaMatteo119748.App'
+    mainClass = 'it.unicam.cs.ScocciaMatteo119748.implementation.App'
+}
+
+run{
+    standardInput = System.in
 }

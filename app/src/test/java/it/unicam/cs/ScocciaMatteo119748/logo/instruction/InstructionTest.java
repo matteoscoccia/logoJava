@@ -1,53 +1,83 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.instruction;
 
+import it.unicam.cs.ScocciaMatteo119748.logo.components.CursorImpl;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.PlaygroundImpl;
 import it.unicam.cs.ScocciaMatteo119748.logo.instructions.*;
+import it.unicam.cs.ScocciaMatteo119748.logo.components.Cursor;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class InstructionTest {
 
+    private CursorImpl c;
+    private PlaygroundImpl play;
+
+    @Before
+    public void init(){
+        c = new CursorImpl();
+        play = new PlaygroundImpl(800, 800);
+    }
+
+
     @Test
-    public void testBasicInstruction(){
-        /*BasicInstruction i = new BasicInstruction(new Command("HOME", CommandType.BASICINSTRUCTION));
-        assertEquals(i.getCommand().getName(), "HOME");
-        assertEquals(i.getCommand().getType(), CommandType.BASICINSTRUCTION);*/
+    public void testMoveInstruction(){
+        MoveInstruction i = new MoveInstruction(InstructionType.FORWARD, 50);
+        assertEquals(i.getType(), InstructionType.FORWARD);
+        assertEquals(i.getParameter(), 50);
     }
 
     @Test
-    public void testSingleParameterInstruction(){
-        /*SingleParameterInstruction i = new SingleParameterInstruction(new Command("FORWARD", CommandType.SINGLEPARAMETERINSTRUCTION), 20);
-        assertEquals(i.getCommand().getName(), "FORWARD");
-        assertEquals(i.getCommand().getType(), CommandType.SINGLEPARAMETERINSTRUCTION);
-        assertEquals(i.getParam(), 20);*/
+    public void testPerformMovementInstruction(){
+        MoveInstruction i = new MoveInstruction(InstructionType.FORWARD, 50);
+        i.performInstruction(c, play);
+        assertEquals(c.getPosition().getX(), 50, 0);
+        assertEquals(c.getPosition().getY(), 0, 0);
     }
 
     @Test
-    public void testColorInstruction(){
-        /*ColorInstruction i = new ColorInstruction(new Command("SETPENCOLOR", CommandType.COLORINSTRUCTION), Color.BLACK);
-        assertEquals(i.getCommand().getName(), "SETPENCOLOR");
-        assertEquals(i.getCommand().getType(), CommandType.COLORINSTRUCTION);
-        assertEquals(i.getColor(), Color.BLACK);*/
+    public void testPenInstruction(){
+        PenInstruction i = new PenInstruction(InstructionType.SETPENSIZE, 15);
+        i.performInstruction(c, play);
+        assertEquals(c.getPenSize(), 15);
+        assertEquals(i.getType(), InstructionType.SETPENSIZE);
+        assertEquals(i.getParameter(), 15);
+    }
+
+    @Test
+    public void testCursorColorInstruction(){
+        Color color = new Color(30, 120, 200);
+        CursorColorInstruction i = new CursorColorInstruction(InstructionType.SETPENCOLOR, color);
+        i.performInstruction(c, play);
+        assertEquals(i.getType(), InstructionType.SETPENCOLOR);
+        assertEquals(i.getColor(), new Color(30, 120, 200));
+        assertEquals(c.getLineColor(), color);
+    }
+
+    @Test
+    public void testPlaygroundInstruction(){
+        Color color = new Color(100, 30, 20);
+        PlaygroundInstruction i = new PlaygroundInstruction(InstructionType.SETSCREENCOLOR, color);
+        i.performInstruction(c, play);
+        assertEquals(i.getType(), InstructionType.SETSCREENCOLOR);
+        assertEquals(i.getColor(), color);
     }
 
     @Test
     public void testRepeatInstruction(){
-        /*Color color = Color.WHITE;
-        List<BasicInstruction> instructions = new ArrayList<>();
-        BasicInstruction first = new BasicInstruction(new Command("HOME", CommandType.BASICINSTRUCTION));
-        ColorInstruction second = new ColorInstruction(new Command("SETPENCOLOR", CommandType.COLORINSTRUCTION), Color.RED);
-        instructions.add(first);
-        instructions.add(second);
-
-        RepeatInstruction i = new RepeatInstruction(3, instructions);
-        assertEquals(i.getCommand().getName(), "REPEAT");
-        assertEquals(i.getCommand().getType(), CommandType.REPEATINSTRUCTION);
-        assertEquals(i.getTimes(), 3);
-        assertEquals(first, i.getInstructionList().get(0));
-        assertEquals(second, i.getInstructionList().get(1));*/
+        ArrayList<LogoInstruction> list = new ArrayList<>();
+        list.add(new MoveInstruction(InstructionType.FORWARD, 50));
+        list.add(new MoveInstruction(InstructionType.LEFT, 90));
+        RepeatInstruction<LogoInstruction> rep = new RepeatInstruction(3, list);
+        ArrayList<Cursor> cursorList = rep.performNestedInstruction(c, play);
+        Cursor finalCursor = cursorList.get(cursorList.size() -1);
+        assertEquals(0, finalCursor.getPosition().getX(), 0);
+        assertEquals(50, finalCursor.getPosition().getY(), 0);
+        assertEquals(270, finalCursor.getDirection());
     }
 }
