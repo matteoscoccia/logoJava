@@ -21,11 +21,12 @@ public class InstructionExecuter {
     public List<Cursor> history = new ArrayList<>();
 
     private Cursor cursor = new CursorImpl();
-    private Playground playground = new PlaygroundImpl();
+    public Playground playground = new PlaygroundImpl();
 
     //The resulting program execution list
-    private ArrayList<ExecutionResult> programResult = new ArrayList<>();
+    public ArrayList<ExecutionResult> programResult = new ArrayList<>();
     public ArrayList<AbstractLine> lines = new ArrayList<>();
+    public Polygon<AbstractLine> currentPolygon = new Polygon<>();
 
     /**
      * Constructor is private in order to implement singleton pattern
@@ -43,70 +44,85 @@ public class InstructionExecuter {
         return instance;
     }
 
-    /*public void setInstructionTypes(List<InstructionType> list){
-        instructionTypes = list;
-    }*/
-
     /**
      * Takes an instruction and performs the execution of the command
      * @param it instruction
      */
     public void executeInstruction(LogoInstruction it) {
-        /*switch (it.getCommand().getType()){
-            case COLORINSTRUCTION -> executeColorInstruction((ColorInstruction) it);
-            case SINGLEPARAMETERINSTRUCTION -> executeSingleParameterInstruction((SingleParameterInstruction) it);
-            case BASICINSTRUCTION -> executeBasicInstruction(it);
-            case REPEATINSTRUCTION -> executeRepeatInstruction((RepeatInstruction) it);
-        }*/
-        //TODO GESTIRE VALORI CURSORE NULL
-        //TODO CAMBIARE PASSAGGIO PER RIFERIMENTO CURSORI
+        //TODO GESTIRE VALORI CURSORE NULL [FATTO?]
+        //TODO CAMBIARE PASSAGGIO PER RIFERIMENTO CURSORI [FATTO]
         //TODO GESTIRE POLIGONI
         //TODO CALCOLO DIMENSIONI FIELD
         //TODO STAMPA SU FILE
         Cursor nextCursor = cursor.copy();
         System.out.println(nextCursor.toString());
         if(!(it instanceof RepeatInstruction<?>)) {
-            nextCursor = it.performInstruction(nextCursor, playground);
-            history.add(nextCursor);
-            drawLine(nextCursor, cursor);
-            cursor = nextCursor.copy();
+            if(!(it instanceof PlaygroundInstruction)) {
+                nextCursor = it.performInstruction(nextCursor, playground);
+                history.add(nextCursor);
+                drawLine(nextCursor, cursor);
+                cursor = nextCursor.copy();
+            }else{
+                Playground nextPlayground = new PlaygroundImpl(playground.getWidth(), playground.getHeight(), playground.getBackground());
+                nextPlayground = ((PlaygroundInstruction) it).performPlaygroundInstruction(nextPlayground);
+                if(nextPlayground != null) playground = nextPlayground;
+                else clearScreen();
+            }
         }else{
+            System.out.println("NEXT CURSOR BEFORE NESTED: " + nextCursor);
             ArrayList<Cursor> nextCursorStates = ((RepeatInstruction<LogoInstruction>) it).performNestedInstruction(nextCursor, playground);
+            System.out.println("EXECUTER CURSOR AFTER NESTED: " + cursor);
+            history.addAll(nextCursorStates);
             for (Cursor c:
                  nextCursorStates
             ) {
-                drawLine(cursor, c);
+                System.out.println("NESTED NEXT CURSOR STATE: " + c.toString());
+                drawLine(c, cursor);
                 cursor = c.copy();
             }
         }
     }
 
+    private void clearScreen() {
+        //TODO RIMUOVERE ANCHE POLIGONI ECC
+        lines.clear();
+    }
+
     private void drawLine(Cursor nextCursor, Cursor previousCursor) {
         if (cursorMoved(nextCursor, previousCursor)) {
             if (previousCursor.isPlot()) {
-                lines.add(
-                        new StraightLine(previousCursor.getPosition(),
-                                nextCursor.getPosition(),
-                                previousCursor.getLineColor(),
-                                previousCursor.getPenSize()));
+                AbstractLine newLine = new StraightLine(previousCursor.getPosition(),
+                        nextCursor.getPosition(),
+                        previousCursor.getLineColor(),
+                        previousCursor.getPenSize());
+                lines.add(newLine);
+                programResult.add(newLine);
+                drawPolygon(newLine, previousCursor);
             }
         }
     }
 
+    private void drawPolygon(AbstractLine newLine, Cursor previousCursor) {
+        currentPolygon.addEdge(newLine);
+        currentPolygon.setAreaColor(previousCursor.getAreaColor());
+        if(currentPolygon.checkPolygonClosed()){
+            programResult.removeAll(currentPolygon.getEdges());
+            programResult.add(currentPolygon.copy());
+            ArrayList<AbstractLine> newEdges = new ArrayList<>();
+            newEdges.add(currentPolygon.getEdges().get(currentPolygon.getEdges().size()-1));
+            currentPolygon.setEdges(new ArrayList<>());
+        }
+    }
+
+    public void setCursor(Cursor cursor) {
+        this.cursor = cursor;
+    }
+
+    public void setPlayground(Playground playground) {
+        this.playground = playground;
+    }
+
     private boolean cursorMoved(Cursor previousCursor, Cursor cursor) {
         return (previousCursor.getPosition().x != cursor.getPosition().x) || (previousCursor.getPosition().y != cursor.getPosition().y);
-    }
-
-    private void executeRepeatInstruction(RepeatInstruction it) {
-    }
-
-    private void executeBasicInstruction(BasicInstruction it) {
-    }
-
-    private void executeSingleParameterInstruction(SingleParameterInstruction it) {
-    }
-
-    public void executeColorInstruction(ColorInstruction it){
-
     }
 }

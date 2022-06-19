@@ -5,4 +5,16 @@ package it.unicam.cs.ScocciaMatteo119748.logo.components;
  */
 public interface ExecutionResult {
 
+    /**
+     * Returns a string representation of the given execution result
+     * @return string representation of the element
+     */
+    String getOutputRepresentation();
+
+    /**
+     * Returns a string representing the execution of the element
+     * @return
+     */
+    String getExecution();
+
 }

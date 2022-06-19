@@ -16,40 +16,19 @@ import java.util.Scanner;
 public class Model {
 
     String path;
-            //"C:\\Users\\matte\\Desktop\\secondInstructionSet.txt";
-    //TODO VALUTARE SE PASSARLI IN INPUT IN FASE DI COSTRUZIONE
-    InstructionConverterImpl converter;
-    FileReaderImpl reader;
-    InstructionExecuter executer;
+    private final FileReaderImpl reader;
+    private final InstructionExecuter executer;
 
     ArrayList<LogoInstruction> instructions;
 
-    private CursorImpl cursor;
-    private PlaygroundImpl playground;
-
-
-    public Model(String path) {
+    public Model(String path, PlaygroundImpl playground) {
         this.path = path;
-        this.converter = InstructionConverterImpl.getInstance();
+        //TODO VALUTARE SE PASSARLI IN INPUT IN FASE DI COSTRUZIONE
+        InstructionConverterImpl converter = InstructionConverterImpl.getInstance();
         this.reader = new FileReaderImpl(path, converter);
-        this.cursor = new CursorImpl();
-        playground = providePlayground();
         this.executer = InstructionExecuter.getInstance();
-        //executer.setInstructionTypes(converter.instructionTypes);
-    }
-
-    private PlaygroundImpl providePlayground(){
-        Scanner input = new Scanner(System.in);
-        int width, heigth;
-        do {
-            System.out.println("INSERT FIELD WIDTH");
-            width = Integer.parseInt(input.nextLine());
-        } while (width<0);
-        do {
-            System.out.println("INSERT FIELD HEIGTH");
-            heigth = Integer.parseInt(input.nextLine());
-        } while (heigth<0);
-        return new PlaygroundImpl(width, heigth);
+        executer.setPlayground(playground);
+        executer.setCursor(new CursorImpl());
     }
 
     /**
@@ -62,5 +41,9 @@ public class Model {
 
     public void executeInstruction(LogoInstruction it) {
         executer.executeInstruction(it);
+    }
+
+    public InstructionExecuter getExecuter() {
+        return executer;
     }
 }

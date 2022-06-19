@@ -1,5 +1,8 @@
 package it.unicam.cs.ScocciaMatteo119748.implementation;
 
+import it.unicam.cs.ScocciaMatteo119748.logo.components.ExecutionResult;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -22,4 +25,31 @@ public class ConsoleView implements ViewClass {
         System.out.println("Inserire il path del file txt contenente le istruzioni da eseguire:");
         return input.nextLine();
     }
+
+    @Override
+    public int getPlaygroundWidth() {
+        int width;
+        do {
+            System.out.println("INSERT FIELD WIDTH");
+            width = Integer.parseInt(input.nextLine());
+        } while (width<0);
+        return width;
+    }
+
+    @Override
+    public int getPlaygroundHeigth() {
+        int width;
+        do {
+            System.out.println("INSERT FIELD WIDTH");
+            width = Integer.parseInt(input.nextLine());
+        } while (width<0);
+        return width;
+    }
+
+    @Override
+    public void showInstructionResult(ArrayList<ExecutionResult> instructionResult) {
+
+    }
+
+
 }

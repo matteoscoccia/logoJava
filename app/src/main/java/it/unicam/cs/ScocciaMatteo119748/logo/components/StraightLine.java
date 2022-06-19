@@ -23,4 +23,20 @@ public class StraightLine extends AbstractLine{
                 ", size=" + size +
                 '}';
     }
+
+    @Override
+    public String getOutputRepresentation() {
+        return "\nLINE " + startingPoint.getX() + " " + startingPoint.getY()
+                + " " + endingPoint.getX() + " " + endingPoint.getY()
+                + " " + color.getRed() + " " + color.getGreen() + " " + color.getBlue()
+                + " " + size;
+    }
+
+    @Override
+    public String getExecution() {
+        return "\nDrawn a LINE from: [" + startingPoint.getX() + "," + startingPoint.getY()
+                + "] to [" + endingPoint.getX() + " " + endingPoint.getY()
+                + "] colored in [RGB] " + color.getRed() + " " + color.getGreen() + " " + color.getBlue()
+                + " with thickness " + size;
+    }
 }
