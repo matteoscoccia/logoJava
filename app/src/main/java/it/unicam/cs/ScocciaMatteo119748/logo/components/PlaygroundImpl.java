@@ -1,7 +1,5 @@
 package it.unicam.cs.ScocciaMatteo119748.logo.components;
 
-import it.unicam.cs.ScocciaMatteo119748.logo.components.Playground;
-
 import java.awt.*;
 
 /**

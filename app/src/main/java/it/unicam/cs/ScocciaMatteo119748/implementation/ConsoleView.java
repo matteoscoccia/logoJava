@@ -43,7 +43,7 @@ public class ConsoleView implements ViewClass {
     }
 
     @Override
-    public int getPlaygroundHeigth() {
+    public int getPlaygroundHeight() {
         int width;
         do {
             System.out.println("INSERT FIELD HEIGTH");

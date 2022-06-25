@@ -42,8 +42,8 @@ public class Controller {
     private Model prepareModel() {
         instructionSetPath = view.getFilePath();
         int playgroundWidth = view.getPlaygroundWidth();
-        int playgroundHeigth = view.getPlaygroundHeigth();
+        int playgroundHeight = view.getPlaygroundHeight();
         return new Model(instructionSetPath,
-                new PlaygroundImpl(playgroundWidth, playgroundHeigth));
+                new PlaygroundImpl(playgroundWidth, playgroundHeight));
     }
 }

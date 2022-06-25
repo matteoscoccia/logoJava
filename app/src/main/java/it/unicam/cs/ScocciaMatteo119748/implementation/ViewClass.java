@@ -18,7 +18,7 @@ public interface ViewClass {
 
     int getPlaygroundWidth();
 
-    int getPlaygroundHeigth();
+    int getPlaygroundHeight();
 
     /**
      * Shows the execution result of a logo instruction

@@ -8,22 +8,8 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int choice;
-        do {
-            System.out.println("LOGO INSTRUCTION EXECUTER");
-            System.out.println("1) Console Execution");
-            System.out.println("2) GUI Execution");
-            choice = Integer.parseInt(input.nextLine());
-        } while (choice<1 || choice>2);
-
+        System.out.println("\nLOGO INSTRUCTION EXECUTER\n");
         Controller controller = new Controller(new ConsoleView());
-
-        if(choice == 1){
-            //controller = new Controller(model,new ConsoleView());
-        }else if(choice == 2){
-            //Costruire il controller passando una GUIView
-        }
         controller.exec();
     }
 }

@@ -76,7 +76,7 @@ public class Polygon<T extends AbstractLine> implements ExecutionResult{
     }
 
     /**
-     * Closes the poligon removing the edges before the given
+     * Closes the poligon removing the edges before the given one
      * @param edge starting edge of the polygon
      */
     private void closePolygon(T edge) {

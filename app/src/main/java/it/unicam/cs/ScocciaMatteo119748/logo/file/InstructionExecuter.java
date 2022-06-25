@@ -19,8 +19,8 @@ public class InstructionExecuter {
 
     //The resulting program execution list
     private final ArrayList<ExecutionResult> programResult = new ArrayList<>();
-    private ArrayList<AbstractLine> lines = new ArrayList<>();
-    private Polygon<AbstractLine> currentPolygon = new Polygon<>();
+    private final ArrayList<AbstractLine> lines = new ArrayList<>();
+    private final Polygon<AbstractLine> currentPolygon = new Polygon<>();
 
     /**
      * Constructor is private in order to implement singleton pattern

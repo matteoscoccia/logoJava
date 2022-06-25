@@ -9,7 +9,7 @@ import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType
 import static it.unicam.cs.ScocciaMatteo119748.logo.instructions.InstructionType.SETPENCOLOR;
 
 /**
- * Represents an operation that affects the curore line color or area color
+ * Represents an operation that affects the cursor line color or area color
  */
 public class CursorColorInstruction implements LogoInstruction{
 
